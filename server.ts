@@ -110,6 +110,29 @@ async function startServer() {
   const app = express();
   app.use(express.json({ limit: '4mb' }));
 
+  // Allow cross-origin API calls from GitHub Pages PWA & Cloud Run origins
+  app.use('/api', (req, res, next) => {
+    const origin = req.headers.origin;
+    const extraOrigin = (process.env.ALLOWED_ORIGIN || '').trim();
+    const isAllowed =
+      !origin ||
+      origin === extraOrigin ||
+      /^https:\/\/[a-z0-9-]+\.github\.io$/i.test(origin) ||
+      /^https:\/\/[a-z0-9-]+\.run\.app$/i.test(origin) ||
+      /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+
+    if (origin && isAllowed) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Vary', 'Origin');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    }
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
+    return next();
+  });
+
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'lotuzt-ai-creator-studio' });
   });
