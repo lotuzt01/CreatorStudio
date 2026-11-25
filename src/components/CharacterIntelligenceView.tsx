@@ -11,7 +11,12 @@ import {
   UserPlus,
   RefreshCw,
 } from 'lucide-react';
-import { STARTER_CHARACTER_TEMPLATES, type CharacterTemplate } from '../data/starterTemplates';
+import {
+  STARTER_CHARACTER_TEMPLATES,
+  resolveCharacterImageUrl,
+  isMultiPanelSheet,
+  type CharacterTemplate,
+} from '../data/starterTemplates';
 import { copyTextToClipboard } from '../lib/clipboard';
 import { studioApi, type CharacterSceneResponse, type CompileLockResponse } from '../lib/studioApi';
 import type {
@@ -423,10 +428,14 @@ export const CharacterIntelligenceView: React.FC<CharacterIntelligenceViewProps>
                     <div className="w-14 h-16 rounded-lg overflow-hidden bg-[#1B2030] shrink-0">
                       {char.referenceImageUrl ? (
                         <img
-                          src={char.referenceImageUrl}
+                          src={resolveCharacterImageUrl(char.referenceImageUrl)}
                           alt={char.name}
                           referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover"
+                          className={`w-full h-full object-cover ${
+                            isMultiPanelSheet(resolveCharacterImageUrl(char.referenceImageUrl))
+                              ? 'object-[26%_top]'
+                              : 'object-top'
+                          }`}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-xs font-semibold text-[#647087]">
@@ -539,12 +548,22 @@ export const CharacterIntelligenceView: React.FC<CharacterIntelligenceViewProps>
               <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
                 {referenceImageUrl && (
                   <div className="md:col-span-4">
-                    <div className="aspect-[3/4] rounded-xl overflow-hidden border border-[#232838] bg-[#0B0D12]">
+                    <div
+                      className={`${
+                        isMultiPanelSheet(resolveCharacterImageUrl(referenceImageUrl))
+                          ? 'aspect-[3/2]'
+                          : 'aspect-[3/4]'
+                      } rounded-xl overflow-hidden border border-[#232838] bg-[#0B0D12]`}
+                    >
                       <img
-                        src={referenceImageUrl}
+                        src={resolveCharacterImageUrl(referenceImageUrl)}
                         alt={name || 'Referensi karakter'}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full ${
+                          isMultiPanelSheet(resolveCharacterImageUrl(referenceImageUrl))
+                            ? 'object-contain bg-[#0B0D12]'
+                            : 'object-cover object-top'
+                        }`}
                       />
                     </div>
                   </div>

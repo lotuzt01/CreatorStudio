@@ -1,6 +1,10 @@
 import React from 'react';
 import { ArrowRight, Lock, Plus, FolderKanban, UserCheck, Clapperboard, Volume2 } from 'lucide-react';
-import { STUDIO_COVER_IMAGE } from '../data/starterTemplates';
+import {
+  STUDIO_COVER_IMAGE,
+  resolveCharacterImageUrl,
+  isMultiPanelSheet,
+} from '../data/starterTemplates';
 import type {
   ActiveView,
   StudioCharacter,
@@ -163,10 +167,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <div className="aspect-[4/5] bg-[#181C27] overflow-hidden relative">
                     {char.referenceImageUrl ? (
                       <img
-                        src={char.referenceImageUrl}
+                        src={resolveCharacterImageUrl(char.referenceImageUrl)}
                         alt={char.name}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-200"
+                        className={`w-full h-full object-cover ${
+                          isMultiPanelSheet(resolveCharacterImageUrl(char.referenceImageUrl))
+                            ? 'object-[26%_top]'
+                            : 'object-top'
+                        } group-hover:scale-[1.02] transition-transform duration-200`}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-sm font-medium text-[#647087]">

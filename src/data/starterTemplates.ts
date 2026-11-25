@@ -3,6 +3,20 @@ import type { StudioCharacter, StudioProject } from '../types/studio';
 const BASE_URL = import.meta.env.BASE_URL || '/';
 
 export const STUDIO_COVER_IMAGE = `${BASE_URL}src/assets/images/studio_storyboard_cover_1795596653557.jpg`;
+export const NOMIGOSI_REFERENCE_IMAGE = `${BASE_URL}assets/aistudio/file_00000000aec48207806bc5c5d0c15bae_9bcbe279.png`;
+
+export function resolveCharacterImageUrl(url: string): string {
+  const trimmed = (url || '').trim();
+  if (!trimmed) return '';
+  if (trimmed.includes('char_ref_nomigosi_1795596652179.jpg')) {
+    return NOMIGOSI_REFERENCE_IMAGE;
+  }
+  return trimmed;
+}
+
+export function isMultiPanelSheet(url: string): boolean {
+  return url.includes('file_00000000aec48207806bc5c5d0c15bae_9bcbe279.png');
+}
 
 export interface CharacterTemplate {
   templateId: string;
@@ -24,19 +38,20 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     templateId: 'tpl_nomigosi',
     name: 'Nomigosi',
     archetype: 'Tech Presenter & AI Influencer',
-    visualStyle: 'Photorealistic',
+    visualStyle: 'Stylized',
     faceDescription:
-      'Pria Asia Tenggara akhir 20-an, rahang tegas, alis rapi, tatapan hangat dan fokus ke kamera, janggut tipis terawat, tekstur kulit natural.',
+      'Pria akhir 20-an ramah dan ekspresif, alis tegas terawat, mata cokelat hangat, senyum percaya diri, janggut tipis rapi, kulit halus bergaya 3D semi-realistis modern.',
     hairAndWardrobe:
-      'Rambut hitam pendek disisir rapi ke samping, gaya minimalis modern tanpa aksesori berlebihan.',
+      'Rambut hitam gelap tebal bervolume disisir rapi ke samping atas, gaya tech creator modern.',
     bodyAndTraits:
-      'Postur tegap, gestur tangan tenang dan artikulatif saat menjelaskan teknologi.',
-    signatureOutfit: 'Turtleneck gelap berbahan rajut matte charcoal dengan jam tangan hitam minimalis.',
+      'Postur tegap energik, gestur tangan ekspresif saat menjelaskan alur AI, automasi, dan data di depan kamera studio.',
+    signatureOutfit:
+      'Jaket bomber kulit navy gelap dengan grafis sirkuit dan logo N neon cyan menyala di dada kiri serta lengan, dipadukan kaus hitam polos.',
     consistencyCode: 'LOTUZT_NOMIGOSI_01',
     identityLocked: true,
     identityLockPrompt:
-      'Consistent identity LOTUZT_NOMIGOSI_01: Photorealistic Southeast Asian male tech presenter in his late 20s, defined jawline, neatly groomed short black side-parted hair, light trimmed stubble, warm focused eyes, authentic natural skin texture, wearing a matte charcoal dark turtleneck sweater and minimal black watch, 85mm editorial studio look.',
-    referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_nomigosi_1795596652179.jpg`,
+      'Consistent identity LOTUZT_NOMIGOSI_01: Modern stylized 3D semi-realistic male tech presenter in his late 20s, expressive warm brown eyes, neatly groomed thick dark eyebrows, voluminous dark swept-back hair, light trimmed stubble, confident welcoming smile, wearing a dark navy leather bomber jacket with glowing cyan neon "N" circuit node emblem on left chest and illuminated cyan analytics chart graphics on sleeves over a matte black crew-neck t-shirt, bright modern creator studio with workflow diagram monitor and warm wooden shelves.',
+    referenceImageUrl: NOMIGOSI_REFERENCE_IMAGE,
   },
   {
     templateId: 'tpl_aria',

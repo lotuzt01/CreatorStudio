@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { db, handleFirestoreError, OperationType } from './firebase';
+import { resolveCharacterImageUrl } from '../data/starterTemplates';
 import type {
   AspectRatio,
   ProjectCategory,
@@ -208,7 +209,7 @@ export function subscribeCharacters(
             consistencyCode: String(data.consistencyCode || ''),
             identityLocked: Boolean(data.identityLocked),
             identityLockPrompt: String(data.identityLockPrompt || ''),
-            referenceImageUrl: String(data.referenceImageUrl || ''),
+            referenceImageUrl: resolveCharacterImageUrl(String(data.referenceImageUrl || '')),
             createdAtMs: toMillis(data.createdAt),
             updatedAtMs: toMillis(data.updatedAt),
           };
