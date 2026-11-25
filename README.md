@@ -24,9 +24,11 @@ npm run dev
 
 Buka `http://localhost:3000`.
 
-## Integrasi ke GitHub & Instalasi PWA
+## Integrasi ke GitHub, GitHub Pages & Instalasi PWA
 
-1. Gunakan tombol **Save to GitHub** di Google AI Studio, atau unggah repositori secara manual:
+Proyek ini sudah menyertakan workflow otomatis di `.github/workflows/deploy-pages.yml` yang berjalan pada setiap `push` ke branch `main` (atau manual lewat **Actions → Run workflow**) untuk menjalankan `npm run build` dan men-deploy output statis `dist/` ke **GitHub Pages**.
+
+1. Hubungkan proyek ke GitHub melalui tombol **Save to GitHub** di Google AI Studio, atau push manual:
    ```bash
    git init
    git add .
@@ -35,5 +37,6 @@ Buka `http://localhost:3000`.
    git remote add origin https://github.com/USERNAME/jaja-ai-creator-studio.git
    git push -u origin main
    ```
-2. Deploy aplikasi full-stack (`npm run build` lalu `npm run start`) ke platform HTTPS (Google Cloud Run, Render, Railway, atau VPS dengan HTTPS) dengan variabel lingkungan `GEMINI_API_KEY`.
-3. Buka URL HTTPS di Chrome/Edge (Android/Desktop) atau Safari (iOS), lalu klik **Install Aplikasi (PWA)** di sidebar atau menu **Tambahkan ke Layar Utama**.
+2. Di repositori GitHub, buka **Settings → Pages → Build and deployment → Source** lalu pilih **GitHub Actions**.
+3. (Opsional untuk fitur AI di GitHub Pages) Karena endpoint `/api/ai/*` berjalan di server Express (`server.ts`), deploy backend ke layanan HTTPS (seperti Google Cloud Run dengan `GEMINI_API_KEY`) lalu tambahkan Repository Variable `VITE_API_BASE_URL` di **Settings → Secrets and variables → Actions → Variables** yang menunjuk ke URL backend tersebut.
+4. Setelah workflow selesai, buka URL HTTPS GitHub Pages di Chrome/Edge (Android/Desktop) atau Safari (iOS), lalu klik **Install Aplikasi (PWA)** di sidebar atau menu **Tambahkan ke Layar Utama**.

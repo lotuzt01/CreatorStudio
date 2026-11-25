@@ -1,6 +1,8 @@
 import type { StudioCharacter, StudioProject } from '../types/studio';
 
-export const STUDIO_COVER_IMAGE = '/src/assets/images/studio_storyboard_cover_1795596653557.jpg';
+const BASE_URL = import.meta.env.BASE_URL || '/';
+
+export const STUDIO_COVER_IMAGE = `${BASE_URL}src/assets/images/studio_storyboard_cover_1795596653557.jpg`;
 
 export interface CharacterTemplate {
   templateId: string;
@@ -34,7 +36,7 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     identityLocked: true,
     identityLockPrompt:
       'Consistent identity JAJA_NOMIGOSI_01: Photorealistic Southeast Asian male tech presenter in his late 20s, defined jawline, neatly groomed short black side-parted hair, light trimmed stubble, warm focused eyes, authentic natural skin texture, wearing a matte charcoal dark turtleneck sweater and minimal black watch, 85mm editorial studio look.',
-    referenceImageUrl: '/src/assets/images/char_ref_nomigosi_1795596652179.jpg',
+    referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_nomigosi_1795596652179.jpg`,
   },
   {
     templateId: 'tpl_aria',
@@ -52,7 +54,7 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     identityLocked: true,
     identityLockPrompt:
       'Consistent identity JAJA_ARIA_02: Photorealistic Indonesian female UGC creator in her mid 20s, warm authentic smile, natural dewy skin texture, shoulder-length dark wavy hair, small gold hoop earrings, wearing a clean tailored ivory linen blazer over white minimalist top, soft diffused 50mm studio lighting.',
-    referenceImageUrl: '/src/assets/images/char_ref_aria_1795596652412.jpg',
+    referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_aria_1795596652412.jpg`,
   },
   {
     templateId: 'tpl_kairo',
@@ -70,7 +72,7 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     identityLocked: true,
     identityLockPrompt:
       'Consistent identity JAJA_KAIRO_03: Cinematic Southeast Asian male drama protagonist in his early 30s, intense contemplative gaze, slightly tousled dark hair, subtle stubble, wearing a tailored dark charcoal wool overcoat over a black knit turtleneck, moody 35mm anamorphic film aesthetic with directional window light.',
-    referenceImageUrl: '/src/assets/images/char_ref_kairo_1795596653857.jpg',
+    referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_kairo_1795596653857.jpg`,
   },
 ];
 

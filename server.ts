@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import http from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI, Type, ThinkingLevel } from '@google/genai';
@@ -787,6 +788,8 @@ Kembalikan JSON dengan SEMUA field terisi lengkap:
     }
   });
 
+  const httpServer = http.createServer(app);
+
   if (isProduction) {
     const distDir = path.resolve(__dirname, 'dist');
     app.use(express.static(distDir));
@@ -796,13 +799,18 @@ Kembalikan JSON dengan SEMUA field terisi lengkap:
   } else {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        allowedHosts: true,
+        ws: { server: httpServer },
+        hmr: process.env.DISABLE_HMR !== 'true',
+      },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  httpServer.listen(PORT, '0.0.0.0', () => {
     console.log(`JAJA AI Creator Studio server listening on http://0.0.0.0:${PORT}`);
   });
 }
