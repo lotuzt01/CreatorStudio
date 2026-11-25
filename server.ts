@@ -119,6 +119,7 @@ async function startServer() {
       origin === extraOrigin ||
       /^https:\/\/[a-z0-9-]+\.github\.io$/i.test(origin) ||
       /^https:\/\/[a-z0-9-]+\.run\.app$/i.test(origin) ||
+      /^https:\/\/[a-z0-9-]+\.onrender\.com$/i.test(origin) ||
       /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
 
     if (origin && isAllowed) {

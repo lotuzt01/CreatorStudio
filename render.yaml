@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: lotuzt-ai-creator-studio
+    runtime: node
+    plan: free
+    buildCommand: npm install --include=dev --no-audit --no-fund --legacy-peer-deps && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: GEMINI_API_KEY
+        sync: false
