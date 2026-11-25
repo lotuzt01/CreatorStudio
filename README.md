@@ -37,6 +37,6 @@ Proyek ini sudah menyertakan workflow otomatis di `.github/workflows/deploy-page
    git remote add origin https://github.com/USERNAME/jaja-ai-creator-studio.git
    git push -u origin main
    ```
-2. Di repositori GitHub, buka **Settings → Pages → Build and deployment → Source** lalu pilih **GitHub Actions**.
+2. Pastikan repositori berstatus **Public** (untuk akun GitHub Free). Setelah workflow selesai membuat branch `gh-pages`, buka **Settings → Pages → Build and deployment**, pilih **Deploy from a branch**, lalu pilih branch **`gh-pages`** dan folder **`/ (root)`**, kemudian klik **Save**.
 3. (Opsional untuk fitur AI di GitHub Pages) Karena endpoint `/api/ai/*` berjalan di server Express (`server.ts`), deploy backend ke layanan HTTPS (seperti Google Cloud Run dengan `GEMINI_API_KEY`) lalu tambahkan Repository Variable `VITE_API_BASE_URL` di **Settings → Secrets and variables → Actions → Variables** yang menunjuk ke URL backend tersebut.
-4. Setelah workflow selesai, buka URL HTTPS GitHub Pages di Chrome/Edge (Android/Desktop) atau Safari (iOS), lalu klik **Install Aplikasi (PWA)** di sidebar atau menu **Tambahkan ke Layar Utama**.
+4. Setelah aktif, buka URL HTTPS GitHub Pages di Chrome/Edge (Android/Desktop) atau Safari (iOS), lalu klik **Install Aplikasi (PWA)** di sidebar atau menu **Tambahkan ke Layar Utama**.
