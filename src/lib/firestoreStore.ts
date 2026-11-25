@@ -244,7 +244,7 @@ export async function createCharacterDoc(
       bodyAndTraits: input.bodyAndTraits.trim().slice(0, 800),
       signatureOutfit: input.signatureOutfit.trim().slice(0, 500),
       consistencyCode: sanitizeIdSegment(
-        input.consistencyCode || `JAJA_${input.name.toUpperCase()}`,
+        input.consistencyCode || `LOTUZT_${input.name.toUpperCase()}`,
         64
       ),
       identityLocked: Boolean(input.identityLocked),

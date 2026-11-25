@@ -25,8 +25,8 @@ export default defineConfig(() => {
         ],
         manifest: {
           id: base,
-          name: 'JAJA AI Creator Studio',
-          short_name: 'JAJA Studio',
+          name: 'Lotuzt AI Creator Studio',
+          short_name: 'Lotuzt',
           description:
             'Studio produksi konten AI dengan Character Intelligence Engine, Video Flow, UGC, Drama, Podcast, dan Voice Studio.',
           theme_color: '#0B0D12',

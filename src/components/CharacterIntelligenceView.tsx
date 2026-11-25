@@ -127,7 +127,7 @@ export const CharacterIntelligenceView: React.FC<CharacterIntelligenceViewProps>
         setHairAndWardrobe('');
         setBodyAndTraits('');
         setSignatureOutfit('');
-        setConsistencyCode('JAJA_CHAR_01');
+        setConsistencyCode('LOTUZT_CHAR_01');
         setIdentityLockPrompt('');
         setReferenceImageUrl('');
         setLockPack(null);
@@ -169,7 +169,7 @@ export const CharacterIntelligenceView: React.FC<CharacterIntelligenceViewProps>
     setHairAndWardrobe('');
     setBodyAndTraits('');
     setSignatureOutfit('');
-    setConsistencyCode(`JAJA_CHAR_${Math.floor(10 + Math.random() * 89)}`);
+    setConsistencyCode(`LOTUZT_CHAR_${Math.floor(10 + Math.random() * 89)}`);
     setIdentityLocked(true);
     setIdentityLockPrompt('');
     setReferenceImageUrl('');
@@ -220,7 +220,7 @@ export const CharacterIntelligenceView: React.FC<CharacterIntelligenceViewProps>
         bodyAndTraits: bodyAndTraits.trim(),
         signatureOutfit: signatureOutfit.trim(),
         consistencyCode:
-          consistencyCode.trim().replace(/[^a-zA-Z0-9_-]/g, '_') || 'JAJA_CHAR_01',
+          consistencyCode.trim().replace(/[^a-zA-Z0-9_-]/g, '_') || 'LOTUZT_CHAR_01',
         identityLocked,
         identityLockPrompt: identityLockPrompt.trim(),
         referenceImageUrl: referenceImageUrl.trim(),
@@ -591,7 +591,7 @@ export const CharacterIntelligenceView: React.FC<CharacterIntelligenceViewProps>
                       maxLength={64}
                       value={consistencyCode}
                       onChange={(e) => setConsistencyCode(e.target.value)}
-                      placeholder="JAJA_NOMIGOSI_01"
+                      placeholder="LOTUZT_NOMIGOSI_01"
                       className="w-full px-3.5 py-2 text-sm font-mono bg-[#0B0D12] border border-[#232838] rounded-lg text-[#F1F4F9] focus:outline-none focus:border-sky-500"
                     />
                   </div>

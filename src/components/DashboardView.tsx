@@ -47,7 +47,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="lg:col-span-7 bg-[#12151E] border border-[#232838] rounded-xl p-6 sm:p-8 flex flex-col justify-between gap-6">
           <div className="space-y-3">
             <p className="text-xs font-medium text-[#94A0B8]">
-              JAJA AI Creator Studio · Workspace Produksi
+              Lotuzt AI Creator Studio · Workspace Produksi
             </p>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F1F4F9]">
               Satu Identitas Karakter untuk Seluruh Produksi Konten Anda
@@ -82,7 +82,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="lg:col-span-5 relative rounded-xl overflow-hidden border border-[#232838] bg-[#12151E] min-h-[220px]">
           <img
             src={STUDIO_COVER_IMAGE}
-            alt="Ruang pascaproduksi JAJA AI Creator Studio"
+            alt="Ruang pascaproduksi Lotuzt AI Creator Studio"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
           />

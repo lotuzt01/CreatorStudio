@@ -92,7 +92,7 @@ export const StudioSidebar: React.FC<StudioSidebarProps> = ({
           }}
           className="text-left font-display text-base font-bold tracking-tight text-[#F1F4F9] whitespace-nowrap shrink-0"
         >
-          JAJA AI Studio
+          Lotuzt AI Studio
         </button>
         <button
           type="button"

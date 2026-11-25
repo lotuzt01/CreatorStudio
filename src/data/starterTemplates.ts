@@ -32,10 +32,10 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     bodyAndTraits:
       'Postur tegap, gestur tangan tenang dan artikulatif saat menjelaskan teknologi.',
     signatureOutfit: 'Turtleneck gelap berbahan rajut matte charcoal dengan jam tangan hitam minimalis.',
-    consistencyCode: 'JAJA_NOMIGOSI_01',
+    consistencyCode: 'LOTUZT_NOMIGOSI_01',
     identityLocked: true,
     identityLockPrompt:
-      'Consistent identity JAJA_NOMIGOSI_01: Photorealistic Southeast Asian male tech presenter in his late 20s, defined jawline, neatly groomed short black side-parted hair, light trimmed stubble, warm focused eyes, authentic natural skin texture, wearing a matte charcoal dark turtleneck sweater and minimal black watch, 85mm editorial studio look.',
+      'Consistent identity LOTUZT_NOMIGOSI_01: Photorealistic Southeast Asian male tech presenter in his late 20s, defined jawline, neatly groomed short black side-parted hair, light trimmed stubble, warm focused eyes, authentic natural skin texture, wearing a matte charcoal dark turtleneck sweater and minimal black watch, 85mm editorial studio look.',
     referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_nomigosi_1795596652179.jpg`,
   },
   {
@@ -50,10 +50,10 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     bodyAndTraits:
       'Energi hangat, ekspresif, sangat natural saat mereview produk skincare dan gaya hidup di depan kamera vertikal.',
     signatureOutfit: 'Blazer linen ivory potongan clean di atas inner putih minimalis.',
-    consistencyCode: 'JAJA_ARIA_02',
+    consistencyCode: 'LOTUZT_ARIA_02',
     identityLocked: true,
     identityLockPrompt:
-      'Consistent identity JAJA_ARIA_02: Photorealistic Indonesian female UGC creator in her mid 20s, warm authentic smile, natural dewy skin texture, shoulder-length dark wavy hair, small gold hoop earrings, wearing a clean tailored ivory linen blazer over white minimalist top, soft diffused 50mm studio lighting.',
+      'Consistent identity LOTUZT_ARIA_02: Photorealistic Indonesian female UGC creator in her mid 20s, warm authentic smile, natural dewy skin texture, shoulder-length dark wavy hair, small gold hoop earrings, wearing a clean tailored ivory linen blazer over white minimalist top, soft diffused 50mm studio lighting.',
     referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_aria_1795596652412.jpg`,
   },
   {
@@ -68,10 +68,10 @@ export const STARTER_CHARACTER_TEMPLATES: CharacterTemplate[] = [
     bodyAndTraits:
       'Tinggi ramping, gerak tubuh tenang dan penuh ketegangan emosional untuk adegan film pendek.',
     signatureOutfit: 'Mantel wol arang gelap berlapis turtleneck hitam pekat.',
-    consistencyCode: 'JAJA_KAIRO_03',
+    consistencyCode: 'LOTUZT_KAIRO_03',
     identityLocked: true,
     identityLockPrompt:
-      'Consistent identity JAJA_KAIRO_03: Cinematic Southeast Asian male drama protagonist in his early 30s, intense contemplative gaze, slightly tousled dark hair, subtle stubble, wearing a tailored dark charcoal wool overcoat over a black knit turtleneck, moody 35mm anamorphic film aesthetic with directional window light.',
+      'Consistent identity LOTUZT_KAIRO_03: Cinematic Southeast Asian male drama protagonist in his early 30s, intense contemplative gaze, slightly tousled dark hair, subtle stubble, wearing a tailored dark charcoal wool overcoat over a black knit turtleneck, moody 35mm anamorphic film aesthetic with directional window light.',
     referenceImageUrl: `${BASE_URL}src/assets/images/char_ref_kairo_1795596653857.jpg`,
   },
 ];

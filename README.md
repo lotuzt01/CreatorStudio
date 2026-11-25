@@ -1,4 +1,4 @@
-# JAJA AI Creator Studio
+# Lotuzt AI Creator Studio
 
 Studio produksi konten AI berbasis web & Progressive Web App (PWA) dengan **Character Intelligence Engine**, **Character Identity Lock**, **Google Flow Video Prompt Studio**, **UGC & Ads Studio**, **AI Drama & Storyboard Studio**, **AI Podcast Studio**, dan **AI Voice Studio** (Gemini 3.8 TTS).
 
@@ -32,9 +32,9 @@ Proyek ini sudah menyertakan workflow otomatis di `.github/workflows/deploy-page
    ```bash
    git init
    git add .
-   git commit -m "Initial commit: JAJA AI Creator Studio PWA"
+   git commit -m "Initial commit: Lotuzt AI Creator Studio PWA"
    git branch -M main
-   git remote add origin https://github.com/USERNAME/jaja-ai-creator-studio.git
+   git remote add origin https://github.com/USERNAME/lotuzt-ai-creator-studio.git
    git push -u origin main
    ```
 2. Pastikan repositori berstatus **Public** (untuk akun GitHub Free). Setelah workflow selesai membuat branch `gh-pages`, buka **Settings → Pages → Build and deployment**, pilih **Deploy from a branch**, lalu pilih branch **`gh-pages`** dan folder **`/ (root)`**, kemudian klik **Save**.

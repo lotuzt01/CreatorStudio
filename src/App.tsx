@@ -381,7 +381,7 @@ export default function App() {
             </button>
             <div className="flex items-center gap-2 text-sm min-w-0">
               <span className="text-[#647087] hidden sm:inline whitespace-nowrap">
-                JAJA Studio
+                Lotuzt Studio
               </span>
               <span className="text-[#333B52] hidden sm:inline">/</span>
               <span className="font-display font-semibold text-[#F1F4F9] truncate">

@@ -31,9 +31,9 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
   onNotify,
 }) => {
   const [mode, setMode] = useState<'single' | 'dual'>('single');
-  const [title, setTitle] = useState('Narasi Pembuka JAJA Studio');
+  const [title, setTitle] = useState('Narasi Pembuka Lotuzt Studio');
   const [text, setText] = useState(
-    'Selamat datang di JAJA AI Creator Studio. Dengan Character Identity Lock, satu identitas visual dapat digunakan secara konsisten di seluruh video, drama, dan kampanye konten Anda.'
+    'Selamat datang di Lotuzt AI Creator Studio. Dengan Character Identity Lock, satu identitas visual dapat digunakan secara konsisten di seluruh video, drama, dan kampanye konten Anda.'
   );
   const [voiceName, setVoiceName] = useState('Kore');
   const [style, setStyle] = useState('Clear, calm, modern technology presenter');

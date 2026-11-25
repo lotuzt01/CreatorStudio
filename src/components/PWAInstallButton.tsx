@@ -43,7 +43,7 @@ export const PWAInstallButton: React.FC = () => {
           <div className="w-full max-w-md rounded-xl bg-[#12151E] border border-[#232838] p-6 space-y-4">
             <div className="flex items-center justify-between gap-2">
               <h3 id="pwa-install-title" className="text-base font-semibold text-[#F1F4F9]">
-                {isIOS ? 'Install JAJA Studio di iPhone / iPad' : 'Install JAJA Studio sebagai PWA'}
+                {isIOS ? 'Install Lotuzt Studio di iPhone / iPad' : 'Install Lotuzt Studio sebagai PWA'}
               </h3>
               <button
                 type="button"
@@ -75,7 +75,7 @@ export const PWAInstallButton: React.FC = () => {
                 </li>
                 <li>
                   Klik ikon <strong>Install</strong> di ujung kanan kolom alamat browser, atau
-                  buka menu browser lalu pilih <strong>Install JAJA AI Creator Studio</strong>.
+                  buka menu browser lalu pilih <strong>Install Lotuzt AI Creator Studio</strong>.
                 </li>
               </ol>
             )}

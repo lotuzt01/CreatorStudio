@@ -91,7 +91,7 @@ function formatReadableError(rawMessage: string, fallbackMessage: string): strin
 }
 
 function handleApiError(res: express.Response, err: unknown, fallbackMessage: string) {
-  console.error('[JAJA AI Studio API Error]', err);
+  console.error('[Lotuzt AI Studio API Error]', err);
   const rawMessage = err instanceof Error ? err.message : fallbackMessage;
   const status =
     rawMessage.includes('API_KEY_INVALID') || rawMessage.includes('401')
@@ -111,7 +111,7 @@ async function startServer() {
   app.use(express.json({ limit: '4mb' }));
 
   app.get('/api/health', (_req, res) => {
-    res.json({ ok: true, service: 'jaja-ai-creator-studio' });
+    res.json({ ok: true, service: 'lotuzt-ai-creator-studio' });
   });
 
   // 1. Character Intelligence Engine — Identity Lock Compilation + Pose/Expression/Scene Generator
@@ -204,7 +204,7 @@ Kembalikan JSON dengan SEMUA field terisi lengkap:
         '85mm lens, soft key light, subtle rim lighting';
       const aspectRatio = sanitizeText(req.body?.aspectRatio, 20) || '9:16';
 
-      const scenePrompt = `Anda adalah Lead Character Continuity Director di JAJA AI Creator Studio.
+      const scenePrompt = `Anda adalah Lead Character Continuity Director di Lotuzt AI Creator Studio.
 Gunakan Character Identity Lock berikut agar wajah, struktur tulang pipi, gaya rambut, warna kulit, dan ciri fisik karakter tetap 100% konsisten pada adegan baru.
 
 IDENTITAS KARAKTER TERKUNCI:
@@ -739,7 +739,7 @@ Kembalikan JSON dengan SEMUA field terisi lengkap:
         return res.status(400).json({ error: 'Masukkan ide mentah terlebih dahulu.' });
       }
 
-      const prompt = `Anda adalah Senior Prompt Engineer untuk JAJA AI Creator Studio.
+      const prompt = `Anda adalah Senior Prompt Engineer untuk Lotuzt AI Creator Studio.
 Ubah ide mentah berikut menjadi prompt produksi siap pakai dengan presisi tinggi.
 - Ide Mentah: ${rawIdea}
 - Target Output: ${targetOutput}
@@ -811,11 +811,11 @@ Kembalikan JSON dengan SEMUA field terisi lengkap:
   }
 
   httpServer.listen(PORT, '0.0.0.0', () => {
-    console.log(`JAJA AI Creator Studio server listening on http://0.0.0.0:${PORT}`);
+    console.log(`Lotuzt AI Creator Studio server listening on http://0.0.0.0:${PORT}`);
   });
 }
 
 startServer().catch((err) => {
-  console.error('Failed to start JAJA AI Creator Studio server:', err);
+  console.error('Failed to start Lotuzt AI Creator Studio server:', err);
   process.exit(1);
 });
