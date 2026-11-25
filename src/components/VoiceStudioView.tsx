@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, Download, Plus, Trash2 } from 'lucide-react';
-import { studioApi } from '../lib/studioApi';
+import { Volume2, Download, Plus, Trash2, Square } from 'lucide-react';
+import { studioApi, StaticHostVoiceUnavailableError } from '../lib/studioApi';
 import type {
   PendingVoiceTransfer,
   PodcastTurn,
@@ -57,7 +57,58 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
   ]);
 
   const [generating, setGenerating] = useState(false);
+  const [speakingBrowser, setSpeakingBrowser] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const stopBrowserSpeech = () => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setSpeakingBrowser(false);
+  };
+
+  const playWithBrowserSpeech = () => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      setError('Browser ini tidak mendukung pembacaan suara otomatis (Web Speech API).');
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const cleanScript = (raw: string) => raw.replace(/\|[^|]+\|/g, '').trim();
+    const lines =
+      mode === 'single'
+        ? [cleanScript(text)]
+        : turns.map((t) => cleanScript(t.line)).filter(Boolean);
+
+    if (lines.length === 0) return;
+
+    const voices = window.speechSynthesis.getVoices();
+    const idVoice =
+      voices.find((v) => v.lang.toLowerCase().startsWith('id')) ||
+      voices.find((v) => v.lang.toLowerCase().startsWith('en'));
+
+    setSpeakingBrowser(true);
+    lines.forEach((line, idx) => {
+      const utter = new SpeechSynthesisUtterance(line);
+      utter.lang = idVoice?.lang || 'id-ID';
+      if (idVoice) utter.voice = idVoice;
+      utter.pitch = mode === 'dual' && idx % 2 === 1 ? 1.12 : 0.96;
+      utter.rate = 1.0;
+      if (idx === lines.length - 1) {
+        utter.onend = () => setSpeakingBrowser(false);
+        utter.onerror = () => setSpeakingBrowser(false);
+      }
+      window.speechSynthesis.speak(utter);
+    });
+    onNotify('Memutar pratinjau suara menggunakan Speech Engine perangkat (mode GitHub Pages).');
+  };
 
   useEffect(() => {
     if (!pendingTransfer) return;
@@ -106,7 +157,11 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
       });
       onNotify('Audio WAV berhasil disintesis oleh Gemini 3.8 TTS.');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menghasilkan audio.');
+      if (err instanceof StaticHostVoiceUnavailableError) {
+        playWithBrowserSpeech();
+      } else {
+        setError(err instanceof Error ? err.message : 'Gagal menghasilkan audio.');
+      }
     } finally {
       setGenerating(false);
     }
@@ -335,14 +390,26 @@ export const VoiceStudioView: React.FC<VoiceStudioViewProps> = ({
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={generating}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold bg-sky-500 text-slate-950 rounded-lg hover:bg-sky-400 disabled:opacity-50"
-          >
-            <Volume2 className="w-4 h-4" />
-            {generating ? 'Mensintesis Audio WAV...' : 'Generate Audio Studio'}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-2.5">
+            <button
+              type="submit"
+              disabled={generating}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold bg-sky-500 text-slate-950 rounded-lg hover:bg-sky-400 disabled:opacity-50"
+            >
+              <Volume2 className="w-4 h-4" />
+              {generating ? 'Mensintesis Audio WAV...' : 'Generate Audio Studio'}
+            </button>
+            {speakingBrowser && (
+              <button
+                type="button"
+                onClick={stopBrowserSpeech}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium bg-rose-500/15 border border-rose-500/40 text-rose-200 rounded-lg hover:bg-rose-500/25 shrink-0"
+              >
+                <Square className="w-3.5 h-3.5 fill-current" />
+                Hentikan Suara
+              </button>
+            )}
+          </div>
         </form>
 
         <div className="lg:col-span-5 bg-[#12151E] border border-[#232838] rounded-xl p-6 space-y-4">
