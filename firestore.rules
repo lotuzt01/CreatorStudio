@@ -1,0 +1,238 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net: Deny all access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Core Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function ownsProjectIfSet(projectId) {
+      return projectId == '' || (
+        isValidId(projectId) &&
+        exists(/databases/$(database)/documents/projects/$(projectId)) &&
+        get(/databases/$(database)/documents/projects/$(projectId)).data.ownerId == request.auth.uid
+      );
+    }
+
+    function ownsCharacterIfSet(characterId) {
+      return characterId == '' || (
+        isValidId(characterId) &&
+        exists(/databases/$(database)/documents/characters/$(characterId)) &&
+        get(/databases/$(database)/documents/characters/$(characterId)).data.ownerId == request.auth.uid
+      );
+    }
+
+    // Entity Validation Blueprints
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'displayName', 'email', 'photoURL', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['uid', 'displayName', 'email', 'photoURL', 'createdAt', 'updatedAt']) &&
+        data.uid is string && data.uid == request.auth.uid && isValidId(data.uid) &&
+        data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 120 &&
+        data.email is string && data.email.size() >= 3 && data.email.size() <= 254 &&
+        data.photoURL is string && data.photoURL.size() <= 1000 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidProject(data) {
+      return data.keys().hasAll([
+          'ownerId', 'title', 'category', 'description',
+          'aspectRatio', 'targetPlatform', 'status', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'ownerId', 'title', 'category', 'description',
+          'aspectRatio', 'targetPlatform', 'status', 'createdAt', 'updatedAt'
+        ]) &&
+        data.ownerId is string && data.ownerId == request.auth.uid && isValidId(data.ownerId) &&
+        data.title is string && data.title.size() >= 1 && data.title.size() <= 140 &&
+        data.category is string && data.category in ['UGC', 'AI Drama', 'Influencer', 'Podcast', 'Social Media', 'Ads'] &&
+        data.description is string && data.description.size() <= 1200 &&
+        data.aspectRatio is string && data.aspectRatio in ['9:16', '16:9', '1:1', '3:4'] &&
+        data.targetPlatform is string && data.targetPlatform.size() <= 80 &&
+        data.status is string && data.status in ['draft', 'in_progress', 'completed'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidCharacter(data) {
+      return data.keys().hasAll([
+          'ownerId', 'projectId', 'name', 'archetype', 'visualStyle',
+          'faceDescription', 'hairAndWardrobe', 'bodyAndTraits', 'signatureOutfit',
+          'consistencyCode', 'identityLocked', 'identityLockPrompt',
+          'referenceImageUrl', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'ownerId', 'projectId', 'name', 'archetype', 'visualStyle',
+          'faceDescription', 'hairAndWardrobe', 'bodyAndTraits', 'signatureOutfit',
+          'consistencyCode', 'identityLocked', 'identityLockPrompt',
+          'referenceImageUrl', 'createdAt', 'updatedAt'
+        ]) &&
+        data.ownerId is string && data.ownerId == request.auth.uid && isValidId(data.ownerId) &&
+        data.projectId is string && (data.projectId == '' || isValidId(data.projectId)) &&
+        data.name is string && data.name.size() >= 1 && data.name.size() <= 100 &&
+        data.archetype is string && data.archetype.size() >= 1 && data.archetype.size() <= 100 &&
+        data.visualStyle is string && data.visualStyle in ['Photorealistic', 'Cinematic', 'Editorial', 'Stylized'] &&
+        data.faceDescription is string && data.faceDescription.size() <= 800 &&
+        data.hairAndWardrobe is string && data.hairAndWardrobe.size() <= 800 &&
+        data.bodyAndTraits is string && data.bodyAndTraits.size() <= 800 &&
+        data.signatureOutfit is string && data.signatureOutfit.size() <= 500 &&
+        data.consistencyCode is string && data.consistencyCode.size() >= 2 && data.consistencyCode.size() <= 64 &&
+        data.consistencyCode.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.identityLocked is bool &&
+        data.identityLockPrompt is string && data.identityLockPrompt.size() <= 3000 &&
+        data.referenceImageUrl is string && data.referenceImageUrl.size() <= 2000 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidPromptRecord(data) {
+      return data.keys().hasAll([
+          'ownerId', 'projectId', 'characterId', 'module',
+          'title', 'promptText', 'secondaryOutput', 'tags', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'ownerId', 'projectId', 'characterId', 'module',
+          'title', 'promptText', 'secondaryOutput', 'tags', 'createdAt', 'updatedAt'
+        ]) &&
+        data.ownerId is string && data.ownerId == request.auth.uid && isValidId(data.ownerId) &&
+        data.projectId is string && (data.projectId == '' || isValidId(data.projectId)) &&
+        data.characterId is string && (data.characterId == '' || isValidId(data.characterId)) &&
+        data.module is string && data.module in [
+          'character_engine', 'video_flow', 'ugc_studio',
+          'drama_studio', 'podcast_studio', 'prompt_lab'
+        ] &&
+        data.title is string && data.title.size() >= 1 && data.title.size() <= 160 &&
+        data.promptText is string && data.promptText.size() >= 1 && data.promptText.size() <= 12000 &&
+        data.secondaryOutput is string && data.secondaryOutput.size() <= 12000 &&
+        data.tags is list && data.tags.size() <= 10 &&
+        (data.tags.size() == 0 || (data.tags[0] is string && data.tags[0].size() <= 40)) &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    // 1. Private User Profiles (PII Isolated — No List Queries Allowed)
+    match /users/{userId} {
+      allow get: if isSignedIn() && isValidId(userId) && request.auth.uid == userId;
+      allow list: if false;
+      allow create: if isVerified() &&
+        isValidId(userId) &&
+        request.auth.uid == userId &&
+        isValidUserProfile(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isVerified() &&
+        isValidId(userId) &&
+        request.auth.uid == userId &&
+        isValidUserProfile(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'email', 'photoURL', 'updatedAt']);
+      allow delete: if false;
+    }
+
+    // 2. Projects Collection
+    match /projects/{projectId} {
+      allow get: if isSignedIn() && isValidId(projectId) && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isVerified() &&
+        isValidId(projectId) &&
+        isValidProject(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isVerified() &&
+        isValidId(projectId) &&
+        isValidProject(incoming()) &&
+        existing().ownerId == request.auth.uid &&
+        existing().status != 'completed' &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time && (
+          // Action: Edit project metadata
+          incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'description', 'aspectRatio', 'targetPlatform', 'updatedAt']) ||
+          // Action: Update workflow status
+          incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) ||
+          // Action: Full edit while active
+          incoming().diff(existing()).affectedKeys().hasOnly(['title', 'category', 'description', 'aspectRatio', 'targetPlatform', 'status', 'updatedAt'])
+        );
+      allow delete: if isVerified() && isValidId(projectId) && existing().ownerId == request.auth.uid;
+    }
+
+    // 3. Characters Collection (Character Intelligence Engine)
+    match /characters/{characterId} {
+      allow get: if isSignedIn() && isValidId(characterId) && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isVerified() &&
+        isValidId(characterId) &&
+        isValidCharacter(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time &&
+        ownsProjectIfSet(incoming().projectId);
+      allow update: if isVerified() &&
+        isValidId(characterId) &&
+        isValidCharacter(incoming()) &&
+        existing().ownerId == request.auth.uid &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        ownsProjectIfSet(incoming().projectId) && (
+          // Action: Toggle identity lock or refresh lock prompt
+          incoming().diff(existing()).affectedKeys().hasOnly(['identityLocked', 'identityLockPrompt', 'updatedAt']) ||
+          // Action: Update character DNA profile
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'projectId', 'name', 'archetype', 'visualStyle',
+            'faceDescription', 'hairAndWardrobe', 'bodyAndTraits',
+            'signatureOutfit', 'consistencyCode', 'identityLocked',
+            'identityLockPrompt', 'referenceImageUrl', 'updatedAt'
+          ])
+        );
+      allow delete: if isVerified() && isValidId(characterId) && existing().ownerId == request.auth.uid;
+    }
+
+    // 4. Prompts & Studio Outputs Collection
+    match /prompts/{promptId} {
+      allow get: if isSignedIn() && isValidId(promptId) && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isVerified() &&
+        isValidId(promptId) &&
+        isValidPromptRecord(incoming()) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time &&
+        ownsProjectIfSet(incoming().projectId) &&
+        ownsCharacterIfSet(incoming().characterId);
+      allow update: if isVerified() &&
+        isValidId(promptId) &&
+        isValidPromptRecord(incoming()) &&
+        existing().ownerId == request.auth.uid &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        ownsProjectIfSet(incoming().projectId) &&
+        ownsCharacterIfSet(incoming().characterId) &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['projectId', 'characterId', 'title', 'promptText', 'secondaryOutput', 'tags', 'updatedAt']);
+      allow delete: if isVerified() && isValidId(promptId) && existing().ownerId == request.auth.uid;
+    }
+  }
+}

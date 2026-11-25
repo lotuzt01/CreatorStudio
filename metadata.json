@@ -1,0 +1,6 @@
+{
+  "name": "JAJA AI Creator Studio",
+  "description": "Studio produksi konten AI terpadu dengan Character Intelligence Engine, Identity Lock, Video Flow Prompt Builder, UGC & Drama Studio, serta AI Voice Studio berbasis Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

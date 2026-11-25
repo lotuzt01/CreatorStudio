@@ -1,0 +1,267 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private profile record for an authenticated JAJA AI Creator Studio user.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 254
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "email", "photoURL", "createdAt", "updatedAt"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A content production workspace project owned by a user.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140
+        },
+        "category": {
+          "type": "string",
+          "enum": ["UGC", "AI Drama", "Influencer", "Podcast", "Social Media", "Ads"]
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1200
+        },
+        "aspectRatio": {
+          "type": "string",
+          "enum": ["9:16", "16:9", "1:1", "3:4"]
+        },
+        "targetPlatform": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "in_progress", "completed"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "title",
+        "category",
+        "description",
+        "aspectRatio",
+        "targetPlatform",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Character": {
+      "title": "Character",
+      "description": "Persistent AI character identity record with Character Identity Lock metadata.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "projectId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "archetype": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "visualStyle": {
+          "type": "string",
+          "enum": ["Photorealistic", "Cinematic", "Editorial", "Stylized"]
+        },
+        "faceDescription": {
+          "type": "string",
+          "maxLength": 800
+        },
+        "hairAndWardrobe": {
+          "type": "string",
+          "maxLength": 800
+        },
+        "bodyAndTraits": {
+          "type": "string",
+          "maxLength": 800
+        },
+        "signatureOutfit": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "consistencyCode": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "identityLocked": {
+          "type": "boolean"
+        },
+        "identityLockPrompt": {
+          "type": "string",
+          "maxLength": 3000
+        },
+        "referenceImageUrl": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "projectId",
+        "name",
+        "archetype",
+        "visualStyle",
+        "faceDescription",
+        "hairAndWardrobe",
+        "bodyAndTraits",
+        "signatureOutfit",
+        "consistencyCode",
+        "identityLocked",
+        "identityLockPrompt",
+        "referenceImageUrl",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PromptRecord": {
+      "title": "PromptRecord",
+      "description": "Saved AI output (character scene prompt, video flow prompt, UGC script, drama storyboard, or podcast script).",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "projectId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "characterId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "module": {
+          "type": "string",
+          "enum": ["character_engine", "video_flow", "ugc_studio", "drama_studio", "podcast_studio", "prompt_lab"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "promptText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        },
+        "secondaryOutput": {
+          "type": "string",
+          "maxLength": 12000
+        },
+        "tags": {
+          "type": "array",
+          "maxLength": 10
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "projectId",
+        "characterId",
+        "module",
+        "title",
+        "promptText",
+        "secondaryOutput",
+        "tags",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile documents isolated strictly to their owning authenticated user."
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "User-owned production projects across UGC, AI Drama, Influencer, Podcast, Social Media, and Ads."
+    },
+    "/characters/{characterId}": {
+      "schema": { "$ref": "#/entities/Character" },
+      "description": "User-owned AI character blueprints with Identity Lock specifications and visual reference links."
+    },
+    "/prompts/{promptId}": {
+      "schema": { "$ref": "#/entities/PromptRecord" },
+      "description": "User-owned archive of generated prompts, Video Flow specs, UGC scripts, drama storyboards, and podcast dialogues."
+    }
+  }
+}
